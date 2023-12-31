@@ -20,6 +20,7 @@ const History = ({ direction }) => {
 
     const handleClick = (e)=>{
         clearHistory(userId);
+        location.reload();
     }
 
 
