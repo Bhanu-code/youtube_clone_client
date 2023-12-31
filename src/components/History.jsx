@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 
-import { Stack, Box } from '@mui/material'
-// import HistoryVideos from './HistoryVideos'
+import { Stack, Box, Button } from '@mui/material'
+import HistoryVideos from './HistoryVideos'
 
 
-import { getHistory } from '../utils/fetchAPI';
+import { clearHistory, getHistory } from '../utils/fetchAPI';
+import { getCookie } from '../utils/getCookie';
 
 const History = ({ direction }) => {
     const [history, setHistory] = useState([]);
@@ -15,18 +16,31 @@ const History = ({ direction }) => {
 
     }, []);
 
+    const userId = getCookie('userId');
+
+    const handleClick = (e)=>{
+        clearHistory(userId);
+        window.location.href = '/history';
+    }
+
 
     return (
+        <>
+            
         <Stack direction={direction || "row"} flexWrap="wrap" justifyContent="start" alignItems="start" gap={2}>
-            {/* {history.map((item) => (
+            
+            {history.map((item) => (
                 <Box key={item.id}>
                     {<HistoryVideos videoId={item.video_id} />}
                     {console.log(item)}
                 </Box>
 
-            ))} */}
+            ))}
 
         </Stack>
+        <br />
+        <Button onClick={handleClick} size='large'>Clear watch history</Button>
+        </>
     )
 }
 

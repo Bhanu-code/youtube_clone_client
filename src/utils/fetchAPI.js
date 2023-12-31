@@ -72,6 +72,13 @@ export const getHistory = async () => {
   return data;
 }
 
+export const clearHistory = async () => {
+  const userId = getCookie('userId')
+  const { data } = await axios.post(`http://localhost:5000/history/${userId}`);
+  // console.log(data)
+  return data;
+}
+
 export const fetchHistory = async (videoId) => {
   const { data } = await axios.get(`${BASE_URL}/videos`, {
     params: {

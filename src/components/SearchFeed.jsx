@@ -29,6 +29,8 @@ const SearchFeed = () => {
         Search Results for: <span style={{ color: "#F31503" }}>
           {search}
         </span> videos
+        <br />
+        {/* <span>Project has reached it's maximum API request(Rapid API) for the month. It will available from next month onwards</span> */}
       </Typography>
       <Videos videos={videos} />
     </Box>
