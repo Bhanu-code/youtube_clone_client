@@ -25,7 +25,7 @@ export const loginUser = async (doc, dispatch) => {
   dispatch(loginStart());
 
   try {
-    const res = await axios.post(`http://localhost:5000/auth/login`, doc);
+    const res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/auth/login`, doc);
     dispatch(loginSuccess(res.data));
   } catch (error) {
     dispatch(loginFail());
@@ -36,7 +36,7 @@ export const loginUser = async (doc, dispatch) => {
 export const registerUser = async (doc) => {
 
   try {
-    const { data } = await axios.post(`http://localhost:5000/auth/register`, doc);
+    const { data } = await axios.post(`${import.meta.env.VITE_SERVER_URL}/auth/register`, doc);
     if (data === "registered") {
       alert("Successfully Registered");
     }
@@ -58,7 +58,7 @@ export const logoutUser = async (dispatch) => {
 export const addToHistory = async (doc) => {
   console.log(doc)
   try {
-    const { data } = await axios.post(`http://localhost:5000/history`, doc);
+    const { data } = await axios.post(`${import.meta.env.VITE_SERVER_URL}/history`, doc);
     console.log(data);
   } catch (error) {
     console.log(error);
@@ -67,14 +67,14 @@ export const addToHistory = async (doc) => {
 
 export const getHistory = async () => {
   const userId = getCookie('userId')
-  const { data } = await axios.get(`http://localhost:5000/history/${userId}`);
+  const { data } = await axios.get(`${import.meta.env.VITE_SERVER_URL}/history/${userId}`);
   // console.log(data)
   return data;
 }
 
 export const clearHistory = async () => {
   const userId = getCookie('userId')
-  const { data } = await axios.post(`http://localhost:5000/history/${userId}`);
+  const { data } = await axios.post(`${import.meta.env.VITE_SERVER_URL}/history/${userId}`);
   // console.log(data)
   return data;
 }
