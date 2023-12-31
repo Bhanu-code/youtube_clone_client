@@ -20,7 +20,7 @@ const History = ({ direction }) => {
 
     const handleClick = (e)=>{
         clearHistory(userId);
-        window.location.href = '/history';
+        window.location.href = './';
     }
 
 
