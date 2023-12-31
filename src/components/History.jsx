@@ -6,6 +6,7 @@ import HistoryVideos from './HistoryVideos'
 
 import { clearHistory, getHistory } from '../utils/fetchAPI';
 import { getCookie } from '../utils/getCookie';
+import { useNavigate } from 'react-router-dom';
 
 const History = ({ direction }) => {
     const [history, setHistory] = useState([]);
@@ -16,11 +17,13 @@ const History = ({ direction }) => {
 
     }, []);
 
+    const navigateTo = useNavigate();
+
     const userId = getCookie('userId');
 
     const handleClick = (e)=>{
         clearHistory(userId);
-        location.reload();
+        navigateTo('/history');
     }
 
 
