@@ -17,13 +17,11 @@ const History = ({ direction }) => {
 
     }, []);
 
-    const navigateTo = useNavigate();
 
     const userId = getCookie('userId');
 
     const handleClick = (e)=>{
         clearHistory(userId);
-        navigateTo('/history');
     }
 
 

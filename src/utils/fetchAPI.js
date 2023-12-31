@@ -76,7 +76,7 @@ export const clearHistory = async () => {
   const userId = getCookie('userId')
   const { data } = await axios.post(`${import.meta.env.VITE_SERVER_URL}/history/${userId}`);
   // console.log(data)
-  return data;
+  window.location.href = '/'
 }
 
 export const fetchHistory = async (videoId) => {
