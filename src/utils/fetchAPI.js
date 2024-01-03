@@ -74,7 +74,7 @@ export const getHistory = async () => {
 
 export const clearHistory = async () => {
   const userId = getCookie('userId')
-  const { data } = await axios.post(`${import.meta.env.VITE_SERVER_URL}/history/${userId}`);
+  const { data } = await axios.delete(`${import.meta.env.VITE_SERVER_URL}/history/${userId}`);
   // console.log(data)
   window.location.href = '/'
 }
@@ -93,5 +93,28 @@ export const fetchHistory = async (videoId) => {
   console.log(data)
   return data;
 
+}
+
+export const getWatchlist = async (videoId) => {
+  const { data } = await axios.get(`${BASE_URL}/videos`, {
+    params: {
+      part: 'contentDetails,snippet,statistics',
+      id: videoId
+    },
+    headers: {
+      'X-RapidAPI-Key': import.meta.env.VITE_API_KEY,
+      'X-RapidAPI-Host': 'youtube-v31.p.rapidapi.com'
+    }
+  })
+  console.log(data)
+  return data;
+
+}
+
+export const deleteWatchlist = async () => {
+  const userId = getCookie('userId')
+  const { data } = await axios.post(`${import.meta.env.VITE_SERVER_URL}/watchlist/${userId}`);
+  // console.log(data)
+  window.location.href = '/'
 }
 

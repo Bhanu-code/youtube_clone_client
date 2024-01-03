@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 
 import {
-  Stack, Box, Button, Modal, Typography, Input,
+  Stack, Box, Button, Modal, Typography, Input, MenuItem
 } from '@mui/material';
 
+import MenuIcon from '@mui/icons-material/Menu';
 
 import { Link } from "react-router-dom";
 
@@ -26,12 +27,20 @@ const style = {
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
-  p: 4
+  p: 4,
+  width: {xs: '40%', md:'25%'}
 };
 
 const Navbar = () => {
   const user = useSelector(state => state.user.currentUser);
   const isToken = document.cookie.includes('jwt');
+
+  const [isOpen, setisOpen] = useState(false);
+
+  const handleMenu = (e) => {
+    e.preventDefault();
+    setisOpen((prev) => (!prev));
+  }
 
   const dispatch = useDispatch();
 
@@ -94,7 +103,10 @@ const Navbar = () => {
         <SearchBar />
 
         <Box sx={{ display: 'flex', gap: '2rem' }}>
-          {!isToken && <Button size='small' variant='contained' id='login-btn' onClick={handleOpenLogin} >Login</Button>}
+          {!isToken && <Button size='small' variant='contained'
+            id='login-btn'
+            sx={{ display: { xs: 'none', md: 'flex' } }}
+            onClick={handleOpenLogin} >Login</Button>}
           <Modal
             open={openLogin}
             onClose={handleCloseLogin}
@@ -111,14 +123,16 @@ const Navbar = () => {
                 <Input name='password' placeholder='Password' type='password' onChange={handleChangeLogin} />
                 <Button size='small' variant='outlined' color='error'
                   onClick={handleLogin}
-                  sx={{ width: '50%' }}>login</Button>
+                  >login</Button>
               </Stack>
               <Link>Forgot Password?</Link>
             </Box>
           </Modal>
 
 
-          {!isToken && <Button size='small' variant='contained' id='register-btn' onClick={handleOpenRegister} >Register</Button>}
+          {!isToken && <Button size='small' variant='contained'
+            sx={{ display: { xs: 'none', md: 'flex' } }}
+            id='register-btn' onClick={handleOpenRegister} >Register</Button>}
           <Modal
             open={openRegister}
             onClose={handleCloseRegister}
@@ -137,19 +151,53 @@ const Navbar = () => {
                 {/* <Input name='confirm_password' placeholder='Confirm Password' type='password'  /> */}
                 <Input name='email' placeholder='Email' type='email' onChange={handleChangeRegister} />
                 <Button size='small' variant='outlined' color='error'
-                  sx={{ width: '50%' }} onClick={handleRegister}>Register</Button>
+                  onClick={handleRegister}>Register</Button>
               </Stack>
             </Box>
           </Modal>
 
-          {isToken && <Link to='/history' id='history-link'>History</Link>}
-          {isToken && <Link to='/watchlist' id='watchlist-link'>Watchlist</Link>}
+          {
+            isToken &&
+            <Box sx={{ display: { xs: 'none', md: 'flex', gap:'3rem' } }}>
+              <Link to='/history' id='history-link'>History</Link>
+              <Link to='/watchlist' id='watchlist-link'>Watchlist</Link>
+            </Box>
+          }
 
-          {isToken && <Button size='small' variant='contained' id='logout-btn'
+          {isToken && <Button size='small' variant='contained'
+            sx={{ display: { xs: 'none', md: 'flex' } }}
+            id='logout-btn'
             onClick={(e) => (e.preventDefault(), logoutUser(dispatch))} >Logout</Button>}
+          <MenuIcon sx={{ color: 'white', display: { xs: 'flex', md: 'none' } }}
+            onClick={handleMenu}
+          />
         </Box>
-
       </Stack>
+      <Box sx={{ color: 'white', display: { xs: isOpen ? 'block' : 'none', md: 'none' } }}>
+        {
+          isToken ?
+            <>
+              <Link to='/history'>
+                <MenuItem sx={{ color: 'red' }}>
+                  History
+                </MenuItem>
+              </Link>
+              <Link to='/watchlist'>
+                <MenuItem sx={{ color: 'red' }}>
+                  Watchlist
+                </MenuItem>
+              </Link>
+              <Button onClick={(e) => (e.preventDefault(), logoutUser(dispatch))} sx={{ color: 'red' }} >
+                <MenuItem>Logout</MenuItem>
+              </Button>
+            </> :
+            <>
+              <MenuItem sx={{ color:'red' }} onClick={handleOpenLogin}>Login</MenuItem>
+              <MenuItem sx={{ color:'red' }} onClick={handleOpenRegister}>Register</MenuItem>
+            </>
+        }
+      </Box>
+
     </>
   )
 }
